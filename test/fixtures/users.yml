@@ -1,0 +1,5 @@
+joao:
+  name: João
+  email: joao@seiwa.com.br
+  password_digest: MyString
+  status: "enabled"
