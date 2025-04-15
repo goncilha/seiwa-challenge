@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_15_022117) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_15_034008) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,6 +23,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_022117) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["document_number"], name: "unique_doctor_documents", unique: true
+  end
+
+  create_table "medical_procedure_details", force: :cascade do |t|
+    t.decimal "price", precision: 10, scale: 2
+    t.bigint "medical_procedure_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["medical_procedure_id"], name: "index_medical_procedure_details_on_medical_procedure_id"
+  end
+
+  create_table "medical_procedures", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "patients", force: :cascade do |t|
