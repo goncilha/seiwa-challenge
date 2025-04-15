@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_13_230537) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_15_022117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,6 +23,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_13_230537) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["document_number"], name: "unique_doctor_documents", unique: true
+  end
+
+  create_table "patients", force: :cascade do |t|
+    t.string "name", limit: 510, null: false
+    t.string "document_number", limit: 510, null: false
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
