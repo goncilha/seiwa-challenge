@@ -9,8 +9,7 @@ module SeiwaAuth
     end
 
     def encode(user_id)
-      token = JWT.encode({ user_id: user_id, exp: @expires_in }, @jwt_secret, "HS256")
-      { token: token, expires_in: @expires_in }
+      JWT.encode({ user_id: user_id, exp: @expires_in }, @jwt_secret, "HS256")
     end
 
     def decode(token)

@@ -1,0 +1,6 @@
+house:
+  name: House
+  document_number: 789.456.123-00
+  crm: 123456
+  crm_location: SP
+  status: :enabled

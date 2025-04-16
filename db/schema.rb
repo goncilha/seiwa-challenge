@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_15_034008) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_15_041350) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -47,6 +47,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_034008) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "treatment_details", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.bigint "medical_procedure_id", null: false
+    t.bigint "doctor_id", null: false
+    t.bigint "patient_id", null: false
+    t.bigint "treatment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["doctor_id"], name: "index_treatment_details_on_doctor_id"
+    t.index ["medical_procedure_id"], name: "index_treatment_details_on_medical_procedure_id"
+    t.index ["patient_id"], name: "index_treatment_details_on_patient_id"
+    t.index ["treatment_id"], name: "index_treatment_details_on_treatment_id"
+  end
+
+  create_table "treatments", force: :cascade do |t|
+    t.datetime "performed_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -55,4 +75,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_034008) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "treatment_details", "doctors"
+  add_foreign_key "treatment_details", "medical_procedures"
+  add_foreign_key "treatment_details", "patients"
+  add_foreign_key "treatment_details", "treatments"
 end
