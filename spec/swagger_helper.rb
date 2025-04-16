@@ -50,21 +50,40 @@ RSpec.configure do |config|
           treatment: {
             type: :object,
             properties: {
-              data: {
+              performed_at: { type: :string },
+              detail: {
                 type: :object,
                 properties: {
-                  performed_at: { type: :string },
-                  created_at: { type: :string },
-                  updated_at: { type: :string },
-                  detail: {
+                  medical_procedure: { type: :string },
+                  status: { type: :string },
+                  doctor: {
                     type: :object,
                     properties: {
-                      doctor_id: { type: :integer },
-                      patient_id: { type: :integer },
-                      medical_procedure_id: { type: :integer }
+                      name: { type: :string },
+                      document_number: { type: :string },
+                      crm: { type: :integer },
+                      crm_location: { type: :string },
+                      status: { type: :string }
+                    }
+                  },
+                  patient: {
+                    type: :object,
+                    properties: {
+                      name: { type: :string },
+                      document_number: { type: :string },
+                      status: { type: :string }
                     }
                   }
                 }
+              }
+            }
+          },
+          treatment_collection: {
+            type: :object,
+            properties: {
+              data: {
+                type: :array,
+                items: { '$ref' => '#/components/schemas/treatment' }
               }
             }
           }

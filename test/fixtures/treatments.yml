@@ -1,0 +1,8 @@
+medication:
+  performed_at: <%= Date.today %>
+
+two_stitch:
+  performed_at: <%= Date.yesterday %>
+
+surgery:
+  performed_at: <%= Date.today - 4.days %>

@@ -4,3 +4,10 @@ house:
   crm: 123456
   crm_location: SP
   status: :enabled
+
+ray:
+  name: Ray
+  document_number: 159.357.486-02
+  crm: 654321
+  crm_location: MG
+  status: :enabled

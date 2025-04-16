@@ -1,2 +1,8 @@
 exam:
-  name: Exame
+  name: Exam
+
+surgical_stitch:
+  name: Stitch
+
+facial_surgery:
+  name: Facial Surgery

@@ -1,0 +1,20 @@
+medication_1:
+  treatment: :medication
+  doctor: :house
+  patient: :maria
+  medical_procedure: :exam
+  status: :pending
+
+stitch:
+  treatment: :two_stitch
+  doctor: :house
+  patient: :maria
+  medical_procedure: :surgical_stitch
+  status: :pending
+
+surgery_1:
+  treatment: :surgery
+  doctor: :ray
+  patient: :maria
+  medical_procedure: :facial_surgery
+  status: :pending

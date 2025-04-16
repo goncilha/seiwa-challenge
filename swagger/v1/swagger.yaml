@@ -22,9 +22,18 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/treatment"
+                type: object
+                properties:
+                  data:
+                    "$ref": "#/components/schemas/treatment"
         '422':
           description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/default_error"
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -52,6 +61,44 @@ paths:
                   - medical_procedure_id
               required:
               - performed_at
+    get:
+      summary: Retrieve Treatments
+      tags:
+      - Treatments
+      security:
+      - jwt: []
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: report_type
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: doctor_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: from_date
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: to_date
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/treatment_collection"
 servers:
 - url: https://{defaultHost}
   variables:
@@ -72,21 +119,41 @@ components:
     treatment:
       type: object
       properties:
-        data:
+        performed_at:
+          type: string
+        detail:
           type: object
           properties:
-            performed_at:
+            medical_procedure:
               type: string
-            created_at:
+            status:
               type: string
-            updated_at:
-              type: string
-            detail:
+            doctor:
               type: object
               properties:
-                doctor_id:
+                name:
+                  type: string
+                document_number:
+                  type: string
+                crm:
                   type: integer
-                patient_id:
-                  type: integer
-                medical_procedure_id:
-                  type: integer
+                crm_location:
+                  type: string
+                status:
+                  type: string
+            patient:
+              type: object
+              properties:
+                name:
+                  type: string
+                document_number:
+                  type: string
+                status:
+                  type: string
+    treatment_collection:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/treatment"
