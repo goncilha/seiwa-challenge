@@ -1,6 +1,7 @@
 json.performed_at treatment.performed_at.strftime("%d/%m/%Y")
 json.detail do
   json.medical_procedure treatment.detail.medical_procedure.name
+  json.price number_to_currency(treatment.detail.medical_procedure_detail.price, unit: "R$ ", separator: ",", delimiter: ".")
   json.status treatment.detail.status
 
   json.doctor do

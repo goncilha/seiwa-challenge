@@ -133,6 +133,7 @@ RSpec.describe "Treatments", type: :request do
         result = JSON.parse(response.body)["data"]
         expect(result["performed_at"]).to eq(today)
         expect(result["detail"]["medical_procedure"]).to eq(medical_procedures(:exam).name)
+        expect(result["detail"]["price"]).to eq("R$ 100,00")
         expect(result["detail"]["status"]).to eq("pending")
         expect(result["detail"]["doctor"]["name"]).to eq(doctors(:house).name)
         expect(result["detail"]["doctor"]["document_number"]).to eq(doctors(:house).document_number)

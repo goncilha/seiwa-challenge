@@ -3,6 +3,7 @@ medication_1:
   doctor: :house
   patient: :maria
   medical_procedure: :exam
+  medical_procedure_detail: :exam_detail
   status: :pending
 
 stitch:
@@ -10,6 +11,7 @@ stitch:
   doctor: :house
   patient: :maria
   medical_procedure: :surgical_stitch
+  medical_procedure_detail: :surgical_stitch_detail
   status: :pending
 
 surgery_1:
@@ -17,4 +19,5 @@ surgery_1:
   doctor: :ray
   patient: :maria
   medical_procedure: :facial_surgery
+  medical_procedure_detail: :facial_surgery_detail
   status: :pending

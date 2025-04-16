@@ -16,7 +16,10 @@ class TreatmentsController < ApplicationController
     begin
       Treatment.transaction do
         @treatment = Treatment.create! performed_at: treatment_params[:performed_at]
-        TreatmentDetail.create! treatment_params[:detail].merge({ treatment_id: @treatment.id })
+        TreatmentDetail.create! treatment_params[:detail].merge({
+          treatment_id: @treatment.id,
+          medical_procedure_detail_id: MedicalProcedure.find(treatment_params[:detail][:medical_procedure_id]).detail.id
+        })
         render :create, status: :created
       end
     rescue => e

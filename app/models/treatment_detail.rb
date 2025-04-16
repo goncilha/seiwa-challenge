@@ -7,4 +7,5 @@ class TreatmentDetail < ApplicationRecord
   belongs_to :patient
   belongs_to :treatment
   belongs_to :medical_procedure
+  belongs_to :medical_procedure_detail
 end

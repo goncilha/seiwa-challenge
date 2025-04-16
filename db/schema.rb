@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_15_041350) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_16_170031) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -55,7 +55,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_041350) do
     t.bigint "treatment_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "medical_procedure_detail_id", null: false
     t.index ["doctor_id"], name: "index_treatment_details_on_doctor_id"
+    t.index ["medical_procedure_detail_id"], name: "index_treatment_details_on_medical_procedure_detail_id"
     t.index ["medical_procedure_id"], name: "index_treatment_details_on_medical_procedure_id"
     t.index ["patient_id"], name: "index_treatment_details_on_patient_id"
     t.index ["treatment_id"], name: "index_treatment_details_on_treatment_id"
@@ -77,6 +79,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_041350) do
   end
 
   add_foreign_key "treatment_details", "doctors"
+  add_foreign_key "treatment_details", "medical_procedure_details"
   add_foreign_key "treatment_details", "medical_procedures"
   add_foreign_key "treatment_details", "patients"
   add_foreign_key "treatment_details", "treatments"

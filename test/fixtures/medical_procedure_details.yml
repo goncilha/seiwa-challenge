@@ -1,0 +1,11 @@
+exam_detail:
+  medical_procedure: :exam
+  price: 100
+
+surgical_stitch_detail:
+  medical_procedure: :surgical_stitch
+  price: 50
+
+facial_surgery_detail:
+  medical_procedure: :facial_surgery
+  price: 500

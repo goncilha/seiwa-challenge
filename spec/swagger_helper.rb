@@ -55,6 +55,7 @@ RSpec.configure do |config|
                 type: :object,
                 properties: {
                   medical_procedure: { type: :string },
+                  price: { type: :string },
                   status: { type: :string },
                   doctor: {
                     type: :object,
