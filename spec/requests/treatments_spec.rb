@@ -98,7 +98,22 @@ RSpec.describe "Treatments", type: :request do
       parameter name: :to_date, in: :path, type: :string
 
       response "200", "OK" do
-        schema "$ref" => "#/components/schemas/treatment_collection"
+        schema type: :object,
+          properties: {
+            summary: {
+              type: :object,
+              properties: {
+                status: {
+                  type: :object,
+                  properties: {
+                    count: { type: :integer },
+                    total_amount: { type: :string }
+                  }
+                }
+              }
+            },
+            "$ref" => "#/components/schemas/treatment_collection"
+          }
 
         let(:Authorization) { SeiwaAuth::Token.new.encode(users(:joao).id) }
         let(:report_type) { "" }
@@ -194,6 +209,74 @@ RSpec.describe "Treatments", type: :request do
 
         result = JSON.parse(response.body)["data"]
         expect(result.count).to eq(0)
+      end
+
+      it "summary with status pending only" do
+        get treatments_path, params: {
+          report_type: "financial_by_doctor",
+          doctor_id: doctors(:house).id
+        }, headers: headers
+
+        expect(response).to have_http_status(:ok)
+
+        summary = JSON.parse(response.body)["summary"]
+        result = JSON.parse(response.body)["data"]
+
+        expect(summary[0]["pending"]["count"]).to eq(2)
+        expect(summary[0]["pending"]["total_amount"]).to eq("R$ 150,00")
+
+        expect(result.count).to eq(2)
+      end
+
+      it "summary with status pending and paid treatments" do
+        treatments(:two_stitch).detail.paid!
+
+        get treatments_path, params: {
+          report_type: "financial_by_doctor",
+          doctor_id: doctors(:house).id
+        }, headers: headers
+
+        expect(response).to have_http_status(:ok)
+
+        summary = JSON.parse(response.body)["summary"]
+        result = JSON.parse(response.body)["data"]
+
+        expect(summary.count).to eq(2)
+        expect(summary[0]["pending"]["count"]).to eq(1)
+        expect(summary[0]["pending"]["total_amount"]).to eq("R$ 100,00")
+
+        expect(summary[1]["paid"]["count"]).to eq(1)
+        expect(summary[1]["paid"]["total_amount"]).to eq("R$ 50,00")
+
+        expect(result.count).to eq(2)
+      end
+
+      it "summary with all status and different doctor" do
+        treatments(:medication).detail.update! status: :pending, doctor: doctors(:ray)
+        treatments(:two_stitch).detail.update! status: :denied, doctor: doctors(:ray)
+        treatments(:surgery).detail.update! status: :paid, doctor: doctors(:ray)
+
+        get treatments_path, params: {
+          report_type: "financial_by_doctor",
+          doctor_id: doctors(:ray).id
+        }, headers: headers
+
+        expect(response).to have_http_status(:ok)
+
+        summary = JSON.parse(response.body)["summary"]
+        result = JSON.parse(response.body)["data"]
+        
+        expect(summary.count).to eq(3)
+        expect(summary[0]["pending"]["count"]).to eq(1)
+        expect(summary[0]["pending"]["total_amount"]).to eq("R$ 100,00")
+        #
+        expect(summary[1]["paid"]["count"]).to eq(1)
+        expect(summary[1]["paid"]["total_amount"]).to eq("R$ 500,00")
+
+        expect(summary[2]["denied"]["count"]).to eq(1)
+        expect(summary[2]["denied"]["total_amount"]).to eq("R$ 50,00")
+
+        expect(result.count).to eq(3)
       end
     end
 

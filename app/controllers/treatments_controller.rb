@@ -3,10 +3,18 @@
 class TreatmentsController < ApplicationController
   before_action :authenticate
   def index
+    @report_type = treatment_filter_params[:report_type]
+    @summary = nil
+
     if treatment_filter_params[:report_type] == "daily_by_doctor"
       @treatments = Treatment.daily.by_doctor(treatment_filter_params[:doctor_id])
     elsif treatment_filter_params[:report_type] == "denied_by_date"
       @treatments = Treatment.denied_by_date_range(treatment_filter_params[:from_date], treatment_filter_params[:to_date])
+    elsif treatment_filter_params[:report_type] == "financial_by_doctor"
+      @summary = Treatment.by_doctor(treatment_filter_params[:doctor_id])
+                  .group("details.status")
+                  .pluck("details.status, count(treatments.id), sum(medical_procedure_details.price)")
+      @treatments = Treatment.by_doctor(treatment_filter_params[:doctor_id])
     else
       @treatments = Treatment.all
     end
