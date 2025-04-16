@@ -265,7 +265,7 @@ RSpec.describe "Treatments", type: :request do
 
         summary = JSON.parse(response.body)["summary"]
         result = JSON.parse(response.body)["data"]
-        
+
         expect(summary.count).to eq(3)
         expect(summary[0]["pending"]["count"]).to eq(1)
         expect(summary[0]["pending"]["total_amount"]).to eq("R$ 100,00")

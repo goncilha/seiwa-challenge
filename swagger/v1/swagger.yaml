@@ -98,7 +98,19 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/treatment_collection"
+                type: object
+                properties:
+                  summary:
+                    type: object
+                    properties:
+                      status:
+                        type: object
+                        properties:
+                          count:
+                            type: integer
+                          total_amount:
+                            type: string
+                  "$ref": "#/components/schemas/treatment_collection"
 servers:
 - url: https://{defaultHost}
   variables:
@@ -125,6 +137,8 @@ components:
           type: object
           properties:
             medical_procedure:
+              type: string
+            price:
               type: string
             status:
               type: string
